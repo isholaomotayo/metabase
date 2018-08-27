@@ -11,10 +11,10 @@
   "Deletes older TaskHistory rows. Will order TaskHistory by `ended_at` and delete everything after
   `num-rows-to-keep`. This is intended for a quick cleanup of old rows."
   [num-rows-to-keep]
-  (db/simple-delete! TaskHistory :id [:in {:select   [:id]
-                                           :from     [TaskHistory]
-                                           :offset   num-rows-to-keep
-                                           :order-by [[:ended_at :desc]]}]))
+  (let [clean-before-date (db/select-one-field :ended_at TaskHistory {:limit    1
+                                                                      :offset   num-rows-to-keep
+                                                                      :order-by [[:ended_at :desc]]})]
+    (db/simple-delete! TaskHistory :ended_at [:<= clean-before-date])))
 
 (u/strict-extend (class TaskHistory)
   models/IModel

@@ -4996,7 +4996,7 @@ databaseChangeLog:
       comment: 'Added 0.31.0'
       changes:
         - createTable:
-            tableName: TASK_HISTORY
+            tableName: task_history
             remarks: 'Timing and metadata info about background/quartz processes'
             columns:
               - column:
@@ -5039,13 +5039,13 @@ databaseChangeLog:
                   type: text
         - createIndex:
             indexName: idx_task_history_end_time
-            tableName: TASK_HISTORY
+            tableName: task_history
             columns:
               - column:
                   name: ended_at
         - createIndex:
             indexName: idx_task_history_db_id
-            tableName: TASK_HISTORY
+            tableName: task_history
             columns:
               - column:
                   name: db_id
